@@ -17,7 +17,7 @@ class MainService {
   @timeDecorator()
   async main() {
     const { limit } = this.parseArgument()
-    const file = `./inputs/piege.jzon`
+    const file = `./inputs/sample.json`
     const data = (await shellService.readfile(file)) as MObject[]
     console.log(`There is ${data.length} elements in the ${file}`)
   }
