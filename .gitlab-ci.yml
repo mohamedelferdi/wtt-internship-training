@@ -1,0 +1,41 @@
+variables:
+  # 1. chemin de la prod sur la vm host
+  APPS_FOLDER: 'D:/APPS/'
+
+stages:
+  - build
+  - quality
+  - deploy
+
+before_script:
+  - Copy-Item "$ENV_FILE" -Destination ".env"
+  - foreach ($line in $(Get-Content .env)) { $key, $value = $line -split '=', 2;  $value = $value -replace '"', ""; if ($key -and $value) {  New-Variable -Name "$key" -Value $value}}
+  - If($CI_COMMIT_BRANCH -eq "main"){$NODE_ENV="production"};
+  - If($CI_COMMIT_BRANCH -eq "integration"){$NODE_ENV="integration"};
+  - If($CI_JOB_STAGE -eq "quality"){$NODE_ENV="test"};
+  - $VERSION = (Get-Date).ToString("yyyy-MM-dd HH:mm")
+  - $DESTINATION_FOLDER  = "$APPS_FOLDER$APP_NAME/"
+  
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+
+prettier-check:
+  stage: quality
+  script:
+    - npm run prettier:check
+
+deploy:
+  stage: deploy
+  tags:
+    - $CI_COMMIT_BRANCH
+  script:
+    # - npx rimraf $DESTINATION_FOLDER
+    # - Copy-Item -Recurse './' -Destination $DESTINATION_FOLDER
+    # - cd $DESTINATION_FOLDER
+    - npm i
+  only:
+    refs:
+      - /^main.*/

@@ -1,0 +1,54 @@
+backup/
+0no
+build/
+dist/
+node_modules
+/tests/**/out/
+# Dependency directory
+bower_components
+stashed/
+
+lib-cov
+*.seed
+*.log
+# *.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+# *.xlsx
+
+pids
+logs
+results
+tmp
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+
+# API keys and secrets
+.env
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built ts files
+dist/**/*
+
+# ignore yarn.lock
+yarn.lock
+node_modules
+
+#ignore thunder files
+thunder/config/res-files
+thunder/config/thunderResponses.json
+thunder/config/thunderActivity.json
